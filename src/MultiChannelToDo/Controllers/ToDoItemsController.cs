@@ -10,11 +10,18 @@ using System.Web.Http.Description;
 using System.Web.Http.OData;
 using System.Diagnostics;
 
+//add these using statements
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
+using System.Web.Configuration;
+using System;
+
+
 namespace MultiChannelToDo.Controllers
 {
     public class ToDoItemsController : ApiController
     {
         private MultiChannelToDoContext db = new MultiChannelToDoContext();
+
 
         // GET: api/ToDoItems
         [EnableQuery]
