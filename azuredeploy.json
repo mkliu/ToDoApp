@@ -75,52 +75,32 @@
         "apiSiteName": "[concat(parameters('siteName'), 'Api')]"
     },
     "resources": [
-        {
-            "apiVersion": "2014-04-01-preview",
-            "name": "[parameters('sqlServerName')]",
-            "type": "Microsoft.Sql/servers",
-            "location": "[parameters('sqlServerLocation')]",
-            "tags": {
-                "displayName": "SQLServer"
-            },
-            "properties": {
-                "administratorLogin": "[parameters('sqlServerAdminLogin')]",
-                "administratorLoginPassword": "[parameters('sqlServerAdminPassword')]"
-            },
-            "resources": [
-                {
-                    "apiVersion": "2014-11-01",
-                    "name": "[parameters('sqlDbName')]",
-                    "type": "databases",
-                    "location": "[parameters('sqlServerLocation')]",
-                    "tags": {
-                        "displayName": "SQLDatabase"
-                    },
-                    "dependsOn": [
-                        "[resourceId('Microsoft.Sql/servers', parameters('sqlServerName'))]"
-                    ],
-                    "properties": {
-                        "edition": "[parameters('sqlDbEdition')]",
-                        "collation": "[parameters('sqlDbCollation')]",
-                        "maxSizeBytes": "[parameters('sqlDbMaxSizeBytes')]",
-                        "requestedServiceObjectiveId": "[parameters('sqlDbServiceObjectiveId')]"
-                    }
-                },
-                {
-                    "apiVersion": "2014-11-01",
-                    "name": "SQLServerFirewallRules",
-                    "type": "firewallrules",
-                    "location": "[parameters('sqlServerLocation')]",
-                    "dependsOn": [
-                        "[resourceId('Microsoft.Sql/servers', parameters('sqlServerName'))]"
-                    ],
-                    "properties": {
-                        "endIpAddress": "0.0.0.0",
-                        "startIpAddress": "0.0.0.0"
-                    }
-                }
-            ]
-        },
+        { 
+             "apiVersion": "2015-01-01", 
+             "name": "[parameters('sqlServerName')]", 
+             "type": "Microsoft.Resources/deployments", 
+             "properties": { 
+               "mode": "incremental", 
+               "templateLink": {
+                  "uri":"https://github.com/mkliu/ToDoApp/tree/master/common/deploysql.json",
+                  "contentVersion":"1.0.0.0"
+               }, 
+               "parameters": {
+                        "sqlServerName": {
+                              "value": "[parameters('sqlServerName')]"
+                          },
+                          "sqlServerLocation": {
+                              "value": "[parameters('sqlServerLocation')]"
+                          },
+                          "sqlServerAdminLogin": {
+                              "value": "[parameters('sqlServerAdminLogin')]"
+                          },
+                          "sqlServerAdminPassword": {
+                              "value": "[parameters('sqlServerAdminPassword')]"
+                          }
+               }
+             } 
+          }, 
         {
             "apiVersion": "2014-11-01",
             "name": "[parameters('hostingPlanName')]",
@@ -140,7 +120,7 @@
             "location": "[parameters('siteLocation')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Web/serverFarms', parameters('hostingPlanName'))]",
-                "[resourceId('Microsoft.Sql/servers', parameters('sqlServerName'))]"
+                "[resourceId('Microsoft.Resources/deployments', parameters('sqlServerName'))]"
             ],
             "properties": {
                 "serverFarmId": "[parameters('hostingPlanName')]"
@@ -164,10 +144,10 @@
                     "type": "config",
                     "dependsOn": [
                         "[resourceId('Microsoft.Web/Sites', variables('apiSiteName'))]",
-                        "[resourceId('Microsoft.Sql/servers', parameters('sqlServerName'))]"
+                        "[resourceId('Microsoft.Resources/deployments', parameters('sqlServerName'))]"
                     ],
                     "properties": {
-                        "MultiChannelToDoContext": { "value": "[concat('Data Source=tcp:', reference(concat('Microsoft.Sql/servers/', parameters('sqlServerName'))).fullyQualifiedDomainName, ',1433;Initial Catalog=', parameters('sqlDbName'), ';User Id=', parameters('sqlServerAdminLogin'), '@', parameters('sqlServerName'), ';Password=', parameters('sqlServerAdminPassword'), ';')]", "type": "SQLAzure" }
+                        "MultiChannelToDoContext": { "value": "[concat('Data Source=tcp:', reference(concat('Microsoft.Resources/deployments/', parameters('sqlServerName'))).fullyQualifiedDomainName, ',1433;Initial Catalog=', parameters('sqlDbName'), ';User Id=', parameters('sqlServerAdminLogin'), '@', parameters('sqlServerName'), ';Password=', parameters('sqlServerAdminPassword'), ';')]", "type": "SQLAzure" }
                     }
                 },
                 {
