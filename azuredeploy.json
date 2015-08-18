@@ -45,10 +45,12 @@
             "type": "string"
         },
         "sqlServerAdminLogin": {
-            "type": "string"
+            "type": "string",
+            "defaultValue": "wayliu"
         },
         "sqlServerAdminPassword": {
-            "type": "securestring"
+            "type": "securestring",
+            "defaultValue": "!Microsoft1"
         },
         "sqlDbName": {
             "type": "string",
