@@ -82,7 +82,7 @@
              "properties": { 
                "mode": "incremental", 
                "templateLink": {
-                  "uri":"https://github.com/mkliu/ToDoApp/tree/master/common/deploysql.json",
+                  "uri":"https://raw.githubusercontent.com/mkliu/ToDoApp/master/common/deploysql.json",
                   "contentVersion":"1.0.0.0"
                }, 
                "parameters": {
