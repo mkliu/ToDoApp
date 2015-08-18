@@ -4,4 +4,4 @@
     <img src="http://azuredeploy.net/deploybutton.png"/>
 </a>
 
-azure group deployment create -f azuredeploy.json -e azuredeploy-parameters.json -g wayliu
+azure group deployment create -f azuredeploy.json -e azuredeploy-parameters.json -g wayliu -v
