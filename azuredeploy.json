@@ -119,11 +119,20 @@
                     "siteLocation": {
                         "value": "[parameters('siteLocation')]"
                     },
+                   "sku": {
+                        "value": "[parameters('sku')]"
+                    },
+                   "workerSize": {
+                        "value": "[parameters('workerSize')]"
+                    },
                     "repoUrl": {
                         "value": "[parameters('repoUrl')]"
                     },
-                    "sku": {
-                        "value": "[parameters('sku')]"
+                    "branch": {
+                        "value": "[parameters('branch')]"
+                    },
+                   "project": {
+                        "value": "[parameters('project')]"
                     },
                     "sqlConn": {
                         "value": "[concat('Data Source=tcp:', reference(concat('Microsoft.Resources/deployments/', parameters('sqlServerName'))).outputs.fullyQualifiedDomainName.value, ',1433;Initial Catalog=', parameters('sqlDbName'), ';User Id=', parameters('sqlServerAdminLogin'), '@', parameters('sqlServerName'), ';Password=', parameters('sqlServerAdminPassword'), ';')]"
