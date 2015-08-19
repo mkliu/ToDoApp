@@ -20,13 +20,13 @@ namespace MultiChannelToDo.Models
     
         public MultiChannelToDoContext() : base("name=MultiChannelToDoContext")
         {
-            // I put my GetToken method in a Utils class. Change for wherever you placed your method. 
-            var kv = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(Util.GetToken));
+            //  // I put my GetToken method in a Utils class. Change for wherever you placed your method. 
+            //  var kv = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(Util.GetToken));
 
-            var sec = kv.GetSecretAsync(WebConfigurationManager.AppSettings["SecretUri"]).Result.Value;
+            //  var sec = kv.GetSecretAsync(WebConfigurationManager.AppSettings["SecretUri"]).Result.Value;
 
-            //I put a variable in a Utils class to hold the secret for general  application use. 
-            Util.EncryptSecret = sec;
+            //  //I put a variable in a Utils class to hold the secret for general  application use. 
+            //  Util.EncryptSecret = sec;
         }
 
         public System.Data.Entity.DbSet<MultiChannelToDo.Models.TodoItem> ToDoItems { get; set; }
