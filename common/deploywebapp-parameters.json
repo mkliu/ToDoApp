@@ -8,11 +8,17 @@
     "hostingPlanName": {
       "value": "wayliusite"
     },
+    "connStringName": {
+      "value": "testConn"
+    },
     "siteLocation": {
       "value": "East US"
     },
     "repoUrl": {
       "value": "https://github.com/mkliu/ToDoApp"
+    },
+    "project": {
+      "value": "ContosoUniversity\\ContosoUniversity\\ContosoUniversity.csproj"
     }
   }
 }
