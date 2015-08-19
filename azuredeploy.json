@@ -103,7 +103,7 @@
         },
         {
             "apiVersion": "2015-01-01",
-            "name": "[parameters('sqlServerName')]",
+            "name": "[parameters('siteName')]",
             "type": "Microsoft.Resources/deployments",
             "properties": {
                 "mode": "incremental",
