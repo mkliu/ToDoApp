@@ -2,12 +2,8 @@
     "$schema": "http://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "sitePrefix": {
+        "siteName": {
             "type": "string"
-        },
-        "siteBaseName": {
-            "type": "string",
-            "defaultValue": "todoapp"
         },
         "hostingPlanName": {
             "type": "string"
@@ -75,9 +71,7 @@
             "defaultValue": "910b4fcb-8a29-4c3e-958f-f7ba794388b2"
         }
     },
-    "variables": {
-        "siteName": "[concat(parameters('sitePrefix'), '-', parameters('siteBaseName'))]"
-    },
+    "variables": {},
     "resources": [
         {
             "apiVersion": "2015-01-01",
@@ -107,7 +101,7 @@
         },
         {
             "apiVersion": "2015-01-01",
-            "name": "[variables('siteName')]",
+            "name": "[parameters('siteName')]",
             "type": "Microsoft.Resources/deployments",
             "properties": {
                 "mode": "incremental",
@@ -117,7 +111,7 @@
                 },
                 "parameters": {
                     "siteName": {
-                        "value": "[variables('siteName')]"
+                        "value": "[parameters('siteName')]"
                     },
                     "hostingPlanName": {
                         "value": "[parameters('hostingPlanName')]"
