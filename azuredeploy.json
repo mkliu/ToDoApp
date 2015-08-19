@@ -2,8 +2,12 @@
     "$schema": "http://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "siteName": {
+        "sitePrefix": {
             "type": "string"
+        },
+        "siteBaseName": {
+            "type": "string",
+            "defaultValue": "todoapp"
         },
         "hostingPlanName": {
             "type": "string"
@@ -72,7 +76,7 @@
         }
     },
     "variables": {
-        "apiSiteName": "[concat(parameters('siteName'), 'Api')]"
+        "siteName": "[concat(parameters('sitePrefix'), '-', parameters('siteBaseName'))]"
     },
     "resources": [
         {
@@ -103,7 +107,7 @@
         },
         {
             "apiVersion": "2015-01-01",
-            "name": "[parameters('siteName')]",
+            "name": "[variables('siteName')]",
             "type": "Microsoft.Resources/deployments",
             "properties": {
                 "mode": "incremental",
@@ -113,7 +117,7 @@
                 },
                 "parameters": {
                     "siteName": {
-                        "value": "[parameters('siteName')]"
+                        "value": "[variables('siteName')]"
                     },
                     "hostingPlanName": {
                         "value": "[parameters('hostingPlanName')]"
@@ -124,7 +128,7 @@
                     "repoUrl": {
                         "value": "[parameters('repoUrl')]"
                     },
-                     "sku": {
+                    "sku": {
                         "value": "[parameters('sku')]"
                     },
                     "sqlConn": {
@@ -133,8 +137,14 @@
                 }
             },
             "dependsOn": [
-                    "[resourceId('Microsoft.Resources/deployments', parameters('sqlServerName'))]"
+                "[resourceId('Microsoft.Resources/deployments', parameters('sqlServerName'))]"
             ]
         }
-    ]
+    ],
+    "outputs": {
+        "webSiteAddress": {
+            "type": "string",
+            "value": "[reference(concat('Microsoft.Resources/deployments/', variables('siteName'))).outputs.webSiteAddress.value]"
+        }
+    }
 }
