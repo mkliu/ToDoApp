@@ -38,7 +38,7 @@
             "type": "string",
             "defaultValue": "master"
         },
-       "project": {
+        "project": {
             "type": "string"
         },
         "sqlConn": {
@@ -66,6 +66,9 @@
             "apiVersion": "2014-11-01",
             "name": "[parameters('hostingPlanName')]",
             "type": "Microsoft.Web/serverFarms",
+            "tags": {
+                "environment": "[parameters('environment')]"
+            },
             "location": "[parameters('siteLocation')]",
             "properties": {
                 "name": "[parameters('hostingPlanName')]",
@@ -78,6 +81,9 @@
             "apiVersion": "2015-04-01",
             "name": "[variables('apiSiteName')]",
             "type": "Microsoft.Web/sites",
+            "tags": {
+                "environment": "[parameters('environment')]"
+            },
             "location": "[parameters('siteLocation')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Web/serverFarms', parameters('hostingPlanName'))]"
@@ -113,7 +119,7 @@
                             "value": "[parameters('sqlConn')]",
                             "type": "SQLAzure"
                         },
-                        "SchoolContext": {
+                        "[parameters['connName']": {
                             "value": "[parameters('sqlConn')]",
                             "type": "SQLAzure"
                         }

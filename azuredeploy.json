@@ -2,6 +2,10 @@
     "$schema": "http://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json",
     "contentVersion": "1.0.0.0",
     "parameters": {
+        "environment": {
+            "type": "string",
+            "defaultValue": "dev"
+        },
         "siteName": {
             "type": "string"
         },
@@ -38,7 +42,7 @@
             "type": "string",
             "defaultValue": "master"
         },
-       "project": {
+        "project": {
             "type": "string",
             "defaultValue": "ContosoUniversity\\ContosoUniversity\\ContosoUniversity.csproj"
         },
@@ -95,6 +99,9 @@
                     },
                     "sqlServerAdminPassword": {
                         "value": "[parameters('sqlServerAdminPassword')]"
+                    },
+                    "environment": {
+                        "value": "[parameters('environment')]"
                     }
                 }
             }
@@ -119,10 +126,10 @@
                     "siteLocation": {
                         "value": "[parameters('siteLocation')]"
                     },
-                   "sku": {
+                    "sku": {
                         "value": "[parameters('sku')]"
                     },
-                   "workerSize": {
+                    "workerSize": {
                         "value": "[parameters('workerSize')]"
                     },
                     "repoUrl": {
@@ -131,11 +138,14 @@
                     "branch": {
                         "value": "[parameters('branch')]"
                     },
-                   "project": {
+                    "project": {
                         "value": "[parameters('project')]"
                     },
                     "sqlConn": {
                         "value": "[concat('Data Source=tcp:', reference(concat('Microsoft.Resources/deployments/', parameters('sqlServerName'))).outputs.fullyQualifiedDomainName.value, ',1433;Initial Catalog=', parameters('sqlDbName'), ';User Id=', parameters('sqlServerAdminLogin'), '@', parameters('sqlServerName'), ';Password=', parameters('sqlServerAdminPassword'), ';')]"
+                    },
+                    "environment": {
+                        "value": "[parameters('environment')]"
                     }
                 }
             },

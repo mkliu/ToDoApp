@@ -38,7 +38,8 @@
             "type": "Microsoft.Sql/servers",
             "location": "[parameters('sqlServerLocation')]",
             "tags": {
-                "displayName": "SQLServer"
+                "displayName": "SQLServer",
+                "environment": "[parameters('environment')]"
             },
             "properties": {
                 "administratorLogin": "[parameters('sqlServerAdminLogin')]",
