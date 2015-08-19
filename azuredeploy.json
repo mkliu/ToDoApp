@@ -69,10 +69,6 @@
         "sqlDbMaxSizeBytes": {
             "type": "string",
             "defaultValue": "1073741824"
-        },
-        "sqlDbServiceObjectiveId": {
-            "type": "string",
-            "defaultValue": "910b4fcb-8a29-4c3e-958f-f7ba794388b2"
         }
     },
     "variables": {},
