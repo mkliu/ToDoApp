@@ -38,6 +38,9 @@
             "type": "string",
             "defaultValue": "master"
         },
+       "project": {
+            "type": "string"
+        },
         "sqlConn": {
             "type": "string",
             "defaultValue": "Server=(localdb)\\v11.0;Integrated Security=true;"
@@ -91,7 +94,7 @@
                         "[resourceId('Microsoft.Web/Sites', variables('apiSiteName'))]"
                     ],
                     "properties": {
-                        "PROJECT": "src\\MultiChannelToDo\\MultiChannelToDo.csproj",
+                        "PROJECT": "[parameters('project')]",
                         "clientUrl": "[concat('http://', parameters('siteName'), '.azurewebsites.net')]",
                         "ClientId": "[parameters('clientId')]",
                         "ClientSecret": "[parameters('clientSecret')]",

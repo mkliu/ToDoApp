@@ -38,6 +38,10 @@
             "type": "string",
             "defaultValue": "master"
         },
+       "project": {
+            "type": "string",
+            "defaultValue": "src\\MultiChannelToDo\\MultiChannelToDo.csproj"
+        },
         "sqlServerName": {
             "type": "string"
         },
@@ -138,7 +142,7 @@
     "outputs": {
         "webSiteAddress": {
             "type": "string",
-            "value": "[reference(concat('Microsoft.Resources/deployments/', variables('siteName'))).outputs.webSiteAddress.value]"
+            "value": "[reference(concat('Microsoft.Resources/deployments/', parameters('siteName'))).outputs.webSiteAddress.value]"
         }
     }
 }
