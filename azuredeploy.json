@@ -124,6 +124,9 @@
                     "repoUrl": {
                         "value": "[parameters('repoUrl')]"
                     },
+                     "sku": {
+                        "value": "[parameters('sku')]"
+                    },
                     "sqlConn": {
                         "value": "[concat('Data Source=tcp:', reference(concat('Microsoft.Resources/deployments/', parameters('sqlServerName'))).outputs.fullyQualifiedDomainName.value, ',1433;Initial Catalog=', parameters('sqlDbName'), ';User Id=', parameters('sqlServerAdminLogin'), '@', parameters('sqlServerName'), ';Password=', parameters('sqlServerAdminPassword'), ';')]"
                     }
