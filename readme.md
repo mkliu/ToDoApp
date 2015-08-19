@@ -4,6 +4,12 @@
 
 
 #Generic Deployment
+You could point to your own repo. But note that because ARM doesn't allow dynamic keys, the sqlConn is only set to connectionString with the following names:
+- DBContext
+- MultiChannelToDoContext
+- SchoolContext
+
+MultiChannelToDoContext and SchoolContext are the connection string names used in this repo
 
 [![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmkliu%2FToDoApp%2Fmaster%2Fazuredeploy.json) 
 
