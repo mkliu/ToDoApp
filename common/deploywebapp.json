@@ -38,37 +38,17 @@
             "type": "string",
             "defaultValue": "master"
         },
-        "sqlServerName": {
+       "sqlConn": {
             "type": "string"
         },
-        "sqlServerLocation": {
+        "clientId": {
             "type": "string"
         },
-        "sqlServerAdminLogin": {
+        "clientSecret": {
             "type": "string"
         },
-        "sqlServerAdminPassword": {
-            "type": "securestring"
-        },
-        "sqlDbName": {
-            "type": "string",
-            "defaultValue": "DemosDB"
-        },
-        "sqlDbCollation": {
-            "type": "string",
-            "defaultValue": "SQL_Latin1_General_CP1_CI_AS"
-        },
-        "sqlDbEdition": {
-            "type": "string",
-            "defaultValue": "Web"
-        },
-        "sqlDbMaxSizeBytes": {
-            "type": "string",
-            "defaultValue": "1073741824"
-        },
-        "sqlDbServiceObjectiveId": {
-            "type": "string",
-            "defaultValue": "910b4fcb-8a29-4c3e-958f-f7ba794388b2"
+       "secretUri": {
+            "type": "string"
         }
     },
     "variables": {
@@ -93,8 +73,7 @@
             "type": "Microsoft.Web/sites",
             "location": "[parameters('siteLocation')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/serverFarms', parameters('hostingPlanName'))]",
-                "[resourceId('Microsoft.Resources/deployments', parameters('sqlServerName'))]"
+                "[resourceId('Microsoft.Web/serverFarms', parameters('hostingPlanName'))]"
             ],
             "properties": {
                 "serverFarmId": "[parameters('hostingPlanName')]"
@@ -110,7 +89,20 @@
                     "properties": {
                         "PROJECT": "src\\MultiChannelToDo\\MultiChannelToDo.csproj",
                         "clientUrl": "[concat('http://', parameters('siteName'), '.azurewebsites.net')]",
-                        "test": "[reference('wayliusql').outputs.fullyQualifiedDomainName.value]"
+                        "ClientId": "[parameters('clientId')]",
+                        "ClientSecret": "[parameters('clientSecret')]",
+                        "SecretUri": "[parameters('secretUri')]"
+                    }
+                },
+                {
+                    "apiVersion": "2015-04-01",
+                    "name": "connectionstrings",
+                    "type": "config",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Web/Sites', variables('apiSiteName'))]"
+                    ],
+                    "properties": {
+                        "MultiChannelToDoContext": { "value": "[parameters('sqlConn')]", "type": "SQLAzure" }
                     }
                 },
                 {
@@ -173,7 +165,7 @@
     "outputs": {
        "webSiteAddress" : {
          "type" : "string",
-         "value": "[reference(concat('Microsoft.Sql/servers/', parameters('sqlServerName'))).fullyQualifiedDomainName]"
+         "value": "[reference(concat('Microsoft.Web/sites/', parameters('siteName')))]"
        }
     }
 }
