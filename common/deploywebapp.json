@@ -39,16 +39,20 @@
             "defaultValue": "master"
         },
        "sqlConn": {
-            "type": "string"
+            "type": "string",
+            "defaultValue": "Server=(localdb)\\v11.0;Integrated Security=true;"
         },
         "clientId": {
-            "type": "string"
+            "type": "string",
+            "defaultValue": "clientId"
         },
         "clientSecret": {
-            "type": "string"
+            "type": "string",
+            "defaultValue": "clientSecret"
         },
        "secretUri": {
-            "type": "string"
+            "type": "string",
+            "defaultValue": "clientSecret"
         }
     },
     "variables": {
