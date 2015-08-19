@@ -1,7 +1,7 @@
 {
     "$schema": "http://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json",
     "contentVersion": "1.0.0.0",
-   "parameters": {
+    "parameters": {
         "siteName": {
             "type": "string"
         },
@@ -17,7 +17,7 @@
                 "Free",
                 "Shared",
                 "Basic",
-                "Standard", 
+                "Standard",
                 "Premium"
             ],
             "defaultValue": "Free"
@@ -38,7 +38,7 @@
             "type": "string",
             "defaultValue": "master"
         },
-       "sqlConn": {
+        "sqlConn": {
             "type": "string",
             "defaultValue": "Server=(localdb)\\v11.0;Integrated Security=true;"
         },
@@ -50,7 +50,7 @@
             "type": "string",
             "defaultValue": "clientSecret"
         },
-       "secretUri": {
+        "secretUri": {
             "type": "string",
             "defaultValue": "clientSecret"
         }
@@ -106,7 +106,10 @@
                         "[resourceId('Microsoft.Web/Sites', variables('apiSiteName'))]"
                     ],
                     "properties": {
-                        "MultiChannelToDoContext": { "value": "[parameters('sqlConn')]", "type": "SQLAzure" }
+                        "MultiChannelToDoContext": {
+                            "value": "[parameters('sqlConn')]",
+                            "type": "SQLAzure"
+                        }
                     }
                 },
                 {
@@ -167,9 +170,9 @@
         }
     ],
     "outputs": {
-       "webSiteAddress" : {
-         "type" : "string",
-         "value": "[reference(concat('Microsoft.Web/sites/', parameters('siteName')))]"
-       }
+        "webSiteAddress": {
+            "type": "string",
+            "value": "[reference(concat('Microsoft.Web/sites/', parameters('siteName')))]"
+        }
     }
 }

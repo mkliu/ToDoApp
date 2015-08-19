@@ -84,9 +84,9 @@
         }
     ],
     "outputs": {
-       "fullyQualifiedDomainName" : {
-         "type" : "string",
-         "value": "[reference(concat('Microsoft.Sql/servers/', parameters('sqlServerName'))).fullyQualifiedDomainName]"
-       }
+        "fullyQualifiedDomainName": {
+            "type": "string",
+            "value": "[reference(concat('Microsoft.Sql/servers/', parameters('sqlServerName'))).fullyQualifiedDomainName]"
+        }
     }
 }

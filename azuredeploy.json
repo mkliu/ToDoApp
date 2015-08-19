@@ -17,7 +17,7 @@
                 "Free",
                 "Shared",
                 "Basic",
-                "Standard", 
+                "Standard",
                 "Premium"
             ],
             "defaultValue": "Free"
@@ -75,125 +75,63 @@
         "apiSiteName": "[concat(parameters('siteName'), 'Api')]"
     },
     "resources": [
-        { 
-             "apiVersion": "2015-01-01", 
-             "name": "[parameters('sqlServerName')]", 
-             "type": "Microsoft.Resources/deployments", 
-             "properties": { 
-               "mode": "incremental", 
-               "templateLink": {
-                  "uri":"https://raw.githubusercontent.com/mkliu/ToDoApp/master/common/deploysql.json",
-                  "contentVersion":"1.0.0.0"
-               }, 
-               "parameters": {
-                        "sqlServerName": {
-                              "value": "[parameters('sqlServerName')]"
-                          },
-                          "sqlServerLocation": {
-                              "value": "[parameters('sqlServerLocation')]"
-                          },
-                          "sqlServerAdminLogin": {
-                              "value": "[parameters('sqlServerAdminLogin')]"
-                          },
-                          "sqlServerAdminPassword": {
-                              "value": "[parameters('sqlServerAdminPassword')]"
-                          }
-               }
-             } 
-          }, 
         {
-            "apiVersion": "2014-11-01",
-            "name": "[parameters('hostingPlanName')]",
-            "type": "Microsoft.Web/serverFarms",
-            "location": "[parameters('siteLocation')]",
+            "apiVersion": "2015-01-01",
+            "name": "[parameters('sqlServerName')]",
+            "type": "Microsoft.Resources/deployments",
             "properties": {
-                "name": "[parameters('hostingPlanName')]",
-                "sku": "[parameters('sku')]",
-                "workerSize": "[parameters('workerSize')]",
-                "numberOfWorkers": 1
+                "mode": "incremental",
+                "templateLink": {
+                    "uri": "https://raw.githubusercontent.com/mkliu/ToDoApp/master/common/deploysql.json",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "sqlServerName": {
+                        "value": "[parameters('sqlServerName')]"
+                    },
+                    "sqlServerLocation": {
+                        "value": "[parameters('sqlServerLocation')]"
+                    },
+                    "sqlServerAdminLogin": {
+                        "value": "[parameters('sqlServerAdminLogin')]"
+                    },
+                    "sqlServerAdminPassword": {
+                        "value": "[parameters('sqlServerAdminPassword')]"
+                    }
+                }
             }
         },
         {
-            "apiVersion": "2015-04-01",
-            "name": "[variables('apiSiteName')]",
-            "type": "Microsoft.Web/sites",
-            "location": "[parameters('siteLocation')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Web/serverFarms', parameters('hostingPlanName'))]",
-                "[resourceId('Microsoft.Resources/deployments', parameters('sqlServerName'))]"
-            ],
+            "apiVersion": "2015-01-01",
+            "name": "[parameters('sqlServerName')]",
+            "type": "Microsoft.Resources/deployments",
             "properties": {
-                "serverFarmId": "[parameters('hostingPlanName')]"
-            },
-            "resources": [
-                {
-                    "apiVersion": "2015-04-01",
-                    "name": "appsettings",
-                    "type": "config",
-                    "dependsOn": [
-                        "[resourceId('Microsoft.Web/Sites', variables('apiSiteName'))]"
-                    ],
-                    "properties": {
-                        "PROJECT": "src\\MultiChannelToDo\\MultiChannelToDo.csproj",
-                        "clientUrl": "[concat('http://', parameters('siteName'), '.azurewebsites.net')]",
-                        "test": "[reference('wayliusql').outputs.fullyQualifiedDomainName.value]"
+                "mode": "incremental",
+                "templateLink": {
+                    "uri": "https://raw.githubusercontent.com/mkliu/ToDoApp/master/common/deploywebapp.json",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "siteName": {
+                        "value": "[parameters('siteName')]"
+                    },
+                    "hostingPlanName": {
+                        "value": "[parameters('hostingPlanName')]"
+                    },
+                    "siteLocation": {
+                        "value": "[parameters('siteLocation')]"
+                    },
+                    "repoUrl": {
+                        "value": "[parameters('repoUrl')]"
+                    },
+                    "sqlConn": {
+                        "value": "[concat('Data Source=tcp:', reference('wayliusql').outputs.fullyQualifiedDomainName.value, ',1433;Initial Catalog=', parameters('sqlDbName'), ';User Id=', parameters('sqlServerAdminLogin'), '@', parameters('sqlServerName'), ';Password=', parameters('sqlServerAdminPassword'), ';')]"
                     }
                 },
-                {
-                    "apiVersion": "2015-04-01",
-                    "name": "web",
-                    "type": "sourcecontrols",
-                    "dependsOn": [
-                        "[resourceId('Microsoft.Web/Sites', variables('apiSiteName'))]",
-                        "[resourceId('Microsoft.Web/Sites/config', variables('apiSiteName'), 'appsettings')]"
-                    ],
-                    "properties": {
-                        "RepoUrl": "[parameters('repoUrl')]",
-                        "branch": "[parameters('branch')]",
-                        "IsManualIntegration": true
-                    }
-                }
-            ]
-        },
-        {
-            "apiVersion": "2015-04-01",
-            "name": "[parameters('siteName')]",
-            "type": "Microsoft.Web/sites",
-            "location": "[parameters('siteLocation')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Web/serverFarms', parameters('hostingPlanName'))]"
-            ],
-            "properties": {
-                "serverFarmId": "[parameters('hostingPlanName')]"
-            },
-            "resources": [
-                {
-                    "apiVersion": "2015-04-01",
-                    "name": "appsettings",
-                    "type": "config",
-                    "dependsOn": [
-                        "[resourceId('Microsoft.Web/Sites', parameters('siteName'))]"
-                    ],
-                    "properties": {
-                        "PROJECT": "src\\MultiChannelToDo.Web\\app",
-                        "apiPath": "[concat('http://', variables('apiSiteName'), '.azurewebsites.net/api')]"
-                    }
-                },
-                {
-                    "apiVersion": "2015-04-01",
-                    "name": "web",
-                    "type": "sourcecontrols",
-                    "dependsOn": [
-                        "[resourceId('Microsoft.Web/Sites', parameters('siteName'))]",
-                        "[resourceId('Microsoft.Web/Sites/config', parameters('siteName'), 'appsettings')]"
-                    ],
-                    "properties": {
-                        "RepoUrl": "[parameters('repoUrl')]",
-                        "branch": "[parameters('branch')]",
-                        "IsManualIntegration": true
-                    }
-                }
-            ]
+                "dependsOn": [
+                    "[resourceId('Microsoft.Resources/deployments', parameters('sqlServerName'))]"
+                ]
+            }
         }
     ]
 }
