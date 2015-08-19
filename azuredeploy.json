@@ -40,7 +40,7 @@
         },
        "project": {
             "type": "string",
-            "defaultValue": "src\\MultiChannelToDo\\MultiChannelToDo.csproj"
+            "defaultValue": "ContosoUniversity\\ContosoUniversity\\ContosoUniversity.csproj"
         },
         "sqlServerName": {
             "type": "string"

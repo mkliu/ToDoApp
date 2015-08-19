@@ -112,6 +112,10 @@
                         "MultiChannelToDoContext": {
                             "value": "[parameters('sqlConn')]",
                             "type": "SQLAzure"
+                        },
+                        "SchoolContext": {
+                            "value": "[parameters('sqlConn')]",
+                            "type": "SQLAzure"
                         }
                     }
                 },
