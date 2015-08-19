@@ -125,13 +125,13 @@
                         "value": "[parameters('repoUrl')]"
                     },
                     "sqlConn": {
-                        "value": "[concat('Data Source=tcp:', reference('wayliusql').outputs.fullyQualifiedDomainName.value, ',1433;Initial Catalog=', parameters('sqlDbName'), ';User Id=', parameters('sqlServerAdminLogin'), '@', parameters('sqlServerName'), ';Password=', parameters('sqlServerAdminPassword'), ';')]"
+                        "value": "[concat('Data Source=tcp:', reference(concat('Microsoft.Resources/deployments/', parameters('sqlServerName'))).outputs.fullyQualifiedDomainName.value, ',1433;Initial Catalog=', parameters('sqlDbName'), ';User Id=', parameters('sqlServerAdminLogin'), '@', parameters('sqlServerName'), ';Password=', parameters('sqlServerAdminPassword'), ';')]"
                     }
-                },
-                "dependsOn": [
+                }
+            },
+            "dependsOn": [
                     "[resourceId('Microsoft.Resources/deployments', parameters('sqlServerName'))]"
-                ]
-            }
+            ]
         }
     ]
 }

@@ -172,7 +172,7 @@
     "outputs": {
         "webSiteAddress": {
             "type": "string",
-            "value": "[reference(concat('Microsoft.Web/sites/', parameters('siteName')))]"
+            "value": "[concat('http://', parameters('siteName'), '.azurewebsites.net')]"
         }
     }
 }
