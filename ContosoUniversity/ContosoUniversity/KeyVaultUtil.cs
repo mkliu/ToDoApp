@@ -20,8 +20,8 @@ namespace ContosoUniversity
         public async static Task<string> GetToken(string authority, string resource, string scope)
         {
             var authContext = new AuthenticationContext(authority);
-            ClientCredential clientCred = new ClientCredential(WebConfigurationManager.AppSettings["ClientId"],
-                        WebConfigurationManager.AppSettings["ClientSecret"]);
+            ClientCredential clientCred = new ClientCredential(WebConfigurationManager.AppSettings["clientId"],
+                        WebConfigurationManager.AppSettings["clientSecret"]);
             AuthenticationResult result = await authContext.AcquireTokenAsync(resource, clientCred);
 
             if (result == null)
@@ -33,7 +33,7 @@ namespace ContosoUniversity
         public static string GetConnString()
         {
             var kv = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(KeyVaultUtil.GetToken));
-            string conn = kv.GetSecretAsync(WebConfigurationManager.AppSettings["SecretUri"]).Result.Value;
+            string conn = kv.GetSecretAsync(WebConfigurationManager.AppSettings["secretUri"]).Result.Value;
             return conn;
         }
     }
